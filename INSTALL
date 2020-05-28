@@ -1,0 +1,10 @@
+Installing flask-galatea_payment
+================================
+
+Prerequisites
+-------------
+
+ * Python 2.7 or later (http://www.python.org/)
+ * trytond (http://www.tryton.org/)
+ * trytond-galatea
+ * trytond-account_payment_gateway

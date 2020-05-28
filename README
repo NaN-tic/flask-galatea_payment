@@ -1,0 +1,14 @@
+flask-galatea-payment
+=====================
+
+The Galatea Payment module of the Flask application platform.
+
+Installing
+----------
+
+See INSTALL
+
+License
+-------
+
+See LICENSE
