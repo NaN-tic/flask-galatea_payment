@@ -1,8 +1,8 @@
 #This file is part paypalgateway blueprint for Flask.
 #The COPYRIGHT file at the top level of this repository contains
 #the full copyright notices and license terms.
-from flask import Blueprint, request, render_template, flash, current_app, g, \
-    abort, url_for, redirect
+from flask import (Blueprint, request, render_template, flash, current_app, g,
+    abort, url_for, redirect)
 from flask_babel import gettext as _
 from galatea.tryton import tryton
 from decimal import Decimal, InvalidOperation
