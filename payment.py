@@ -16,6 +16,7 @@ SHOP = current_app.config.get('TRYTON_SALE_SHOP')
 Website = tryton.pool.get('galatea.website')
 Shop = tryton.pool.get('sale.shop')
 Lang = tryton.pool.get('ir.lang')
+PaymentType = tryton.pool.get('account.payment.type')
 
 @payment.route("/", methods=["GET", "POST"], endpoint="payment")
 @tryton.transaction()
@@ -59,7 +60,11 @@ def payment_form(lang):
                 flash(_('Select a payment type.'), "danger")
                 return redirect(url_for('.payment', lang=g.language))
 
-            form_payment.payment_type.data = payment_type_id
+            payment_type = PaymentType(payment_type_id)
+            form_payment.payment_type.label = payment_type.name
+            form_payment.payment_type.choices = [(payment_type_id, payment_type.name)]
+            form_payment.payment_type.default = payment_type_id
+
             if not form_payment.validate_on_submit():
                 for k, v in form_payment.errors.items():
                     flash('%s: %s' % (getattr(form_payment, k).label.text,
