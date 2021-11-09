@@ -1,7 +1,6 @@
 from flask_babel import lazy_gettext
 from flask_wtf import Form
-from wtforms import StringField, RadioField, validators
-from wtforms.fields.html5 import DecimalField
+from wtforms import StringField, RadioField, validators, DecimalField
 
 
 class PaymentForm(Form):
