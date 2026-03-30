@@ -4,19 +4,19 @@
 from flask import (Blueprint, request, render_template, flash, current_app, g,
     abort, url_for, redirect)
 from flask_babel import gettext as _
-from galatea.tryton import tryton
+from app_extensions import tryton
 from decimal import Decimal, InvalidOperation
 from .forms import PaymentForm
 
 payment = Blueprint('payment', __name__, template_folder='templates')
 
-GALATEA_WEBSITE = current_app.config.get('TRYTON_GALATEA_SITE')
-SHOP = current_app.config.get('TRYTON_SALE_SHOP')
+def _galatea_website():
+    return current_app.config.get('TRYTON_GALATEA_SITE')
 
-Website = tryton.pool.get('galatea.website')
-Shop = tryton.pool.get('sale.shop')
-Lang = tryton.pool.get('ir.lang')
-PaymentType = tryton.pool.get('account.payment.type')
+
+def _shop_id():
+    return current_app.config.get('TRYTON_SALE_SHOP')
+
 
 @payment.route("/", methods=["GET", "POST"], endpoint="payment")
 @tryton.transaction()
@@ -27,8 +27,12 @@ def payment_form(lang):
     # 2. POST request. Show amount and reference (readonly) and show payment types
     # Finally send form data to virtual payment blueprint (payment type, esale_code)
 
-    shop = Shop(SHOP)
-    website = Website(GALATEA_WEBSITE)
+    Shop = tryton.pool.get('sale.shop')
+    Website = tryton.pool.get('galatea.website')
+    PaymentType = tryton.pool.get('account.payment.type')
+
+    shop = Shop(_shop_id())
+    website = Website(_galatea_website())
     form_action = '.payment'
 
     payment_types = [(p.payment_type.id, p.payment_type.name)
